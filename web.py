@@ -3,9 +3,22 @@ import functions
 
 todos = functions.get_todos()
 
+
 def add_todo():
     todo = st.session_state["new_todo"] + "\n"
     todos.append(todo)
+    functions.write_todos(todos)
+    st.session_state["new_todo"] = ""
+
+
+def del_todo():
+    todos_to_del = []
+    for todo in st.session_state:
+        if todo == "new_todo":
+            pass
+        elif st.session_state[todo]:
+            todos.remove(todo)
+            del st.session_state[todo]
     functions.write_todos(todos)
 
 
@@ -13,14 +26,9 @@ st.title("Meine Einkaufsliste")
 st.subheader("Für Pauline und Demetrio")
 st.write("Damit mein Schatz endlich eine Einkaufliste hat")
 
-
 for index, todo in enumerate(todos):
-    checkbox = st.checkbox(todo, key=todo)
-    if checkbox:
-        todos.pop(index)
-        functions.write_todos(todos)
-        del st.session_state[todo]
-        st.experimental_rerun()
+    todo = st.checkbox(todo, key=todo)
 
-st.text_input(label="", placeholder="Add new todo...",
-              on_change=add_todo, key='new_todo')
+st.text_input(label="", placeholder="Add new todo...", key='new_todo')
+st.button(label="Eingabe", on_click=add_todo)
+st.button(label="Auswahl Löschen", on_click=del_todo)
