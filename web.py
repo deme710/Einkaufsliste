@@ -29,6 +29,6 @@ st.write("Damit mein Schatz endlich eine Einkaufliste hat")
 for index, todo in enumerate(todos):
     todo = st.checkbox(todo, key=todo)
 
-st.text_input(label="", placeholder="Add new todo...", key='new_todo')
-st.button(label="Eingabe", on_click=add_todo)
-st.button(label="Auswahl Löschen", on_click=del_todo)
+st.text_input(label="", placeholder="Gib ein neues Produkt ein", key='new_todo')
+st.button(label="Eintragen", on_click=add_todo)
+st.button(label="Löschen/Eingekauft", on_click=del_todo)
