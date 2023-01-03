@@ -1,34 +1,38 @@
 import streamlit as st
-import functions
+import connection_sql
 
-todos = functions.get_todos()
-
-
-def add_todo():
-    todo = st.session_state["new_todo"] + "\n"
-    todos.append(todo)
-    functions.write_todos(todos)
-    st.session_state["new_todo"] = ""
+items = connection_sql.get_items()
 
 
-def del_todo():
-    todos_to_del = []
-    for todo in st.session_state:
-        if todo == "new_todo":
+def add_item():
+    item = st.session_state["new_item"] + "\n"
+    if item in items:
+        st.info("Keine doppelten Einträge bitte, das gibt Ärger!!!")
+    else:
+        items.append(item)
+        connection_sql.write_items(items)
+        st.session_state["new_item"] = ""
+
+
+def del_item():
+    items_to_del = []
+    for item in st.session_state:
+        if item == "new_item":
             pass
-        elif st.session_state[todo]:
-            todos.remove(todo)
-            del st.session_state[todo]
-    functions.write_todos(todos)
+        elif st.session_state[item]:
+            items.remove(item)
+            del st.session_state[item]
+    connection_sql.write_items(items)
 
 
 st.title("Meine Einkaufsliste")
 st.subheader("Für Pauline und Demetrio")
 st.write("Damit mein Schatz endlich eine Einkaufliste hat")
 
-for index, todo in enumerate(todos):
-    todo = st.checkbox(todo, key=todo)
+for index, item in enumerate(items):
+    item = st.checkbox(item, key=str(item))
 
-st.text_input(label="", placeholder="Gib ein neues Produkt ein", key='new_todo')
-st.button(label="Eintragen", on_click=add_todo)
-st.button(label="Löschen/Eingekauft", on_click=del_todo)
+
+st.text_input(label="", placeholder="Gib ein neues Produkt ein", key='new_item')
+st.button(label="Eintragen", on_click=add_item)
+st.button(label="Löschen/Eingekauft", on_click=del_item)
