@@ -30,9 +30,9 @@ st.subheader("Für Pauline und Demetrio")
 st.write("Damit mein Schatz endlich eine Einkaufliste hat")
 
 for index, item in enumerate(items):
-    item = st.checkbox(item, key=str(item))
+    item = st.checkbox(label=item, key=str(item))
 
 
-st.text_input(label="", placeholder="Gib ein neues Produkt ein", key='new_item')
+st.text_input(label=" ", placeholder="Gib ein neues Produkt ein", key='new_item')
 st.button(label="Eintragen", on_click=add_item)
 st.button(label="Löschen/Eingekauft", on_click=del_item)
